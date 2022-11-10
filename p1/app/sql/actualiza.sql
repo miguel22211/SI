@@ -1,4 +1,3 @@
-
 --Crear tabla para el estado del pedido
 CREATE TABLE sstatus(
 	status_id SERIAL PRIMARY KEY,
@@ -139,3 +138,58 @@ WHERE username IN (SELECT username
 	  FROM customers
 	  GROUP BY username
 	  HAVING COUNT(username) > 1)
+
+
+ALTER TABLE imdb_actormovies DROP CONSTRAINT actormovies_actorid_fkey;
+ALTER TABLE imdb_actormovies ADD CONSTRAINT actormovies_actorid_fkey FOREIGN KEY (actorid) REFERENCES public.imdb_actors(actorid) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE CASCADE;
+ALTER TABLE imdb_actormovies DROP CONSTRAINT actormovies_movieid_fkey;
+ALTER TABLE imdb_actormovies ADD CONSTRAINT actormovies_movieid_fkey FOREIGN KEY (movieid) REFERENCES public.imdb_movies(movieid) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE CASCADE;
+
+
+ALTER TABLE imdb_directormovies DROP CONSTRAINT imdb_directormovies_directorid_fkey;
+ALTER TABLE imdb_directormovies ADD CONSTRAINT directormovies_directorid_fkey FOREIGN KEY (directorid) REFERENCES public.imdb_directors(directorid) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE CASCADE;
+ALTER TABLE imdb_directormovies DROP CONSTRAINT imdb_directormovies_movieid_fkey;
+ALTER TABLE imdb_directormovies ADD CONSTRAINT directormovies_movieid_fkey FOREIGN KEY (movieid) REFERENCES public.imdb_movies(movieid) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE CASCADE;
+
+ALTER TABLE inventory DROP CONSTRAINT inventory_prod_id_fkey;
+ALTER TABLE inventory ADD CONSTRAINT inventory_prod_id_fkey FOREIGN KEY (prod_id) REFERENCES public.imdb_products(prod_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE CASCADE;
+
+-- ARREGLO MOVIECOUNTRIES
+ALTER TABLE imdb_moviecountries DROP CONSTRAINT imdb_moviecountries_movieid_fkey;
+ALTER TABLE imdb_moviecountries ADD CONSTRAINT moviecountries_movieid_fkey FOREIGN KEY (movieid) REFERENCES public.imdb_movies(movieid) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE CASCADE;
+ALTER TABLE imdb_moviecountries DROP CONSTRAINT moviecountries_country_id_fkey;
+ALTER TABLE imdb_moviecountries ADD CONSTRAINT moviecountries_country_id_fkey FOREIGN KEY (country_id) REFERENCES public.countries(country_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE CASCADE;
+
+-- ARREGLO MOVIEGENRES
+ALTER TABLE imdb_moviegenres DROP CONSTRAINT imdb_moviegenres_movieid_fkey;
+ALTER TABLE imdb_moviegenres ADD CONSTRAINT moviegenres_movieid_fkey FOREIGN KEY (movieid) REFERENCES public.imdb_movies(movieid) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE CASCADE;
+ALTER TABLE imdb_moviegenres DROP CONSTRAINT moviegenres_genre_id_fkey;
+ALTER TABLE imdb_moviegenres ADD CONSTRAINT moviegenres_genre_id_fkey FOREIGN KEY (genre_id) REFERENCES public.genres(genre_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE CASCADE;
+
+-- ARREGLO MOVIELANGUAGES
+ALTER TABLE imdb_movielanguages DROP CONSTRAINT imdb_movielanguages_movieid_fkey;
+ALTER TABLE imdb_movielanguages ADD CONSTRAINT movielanguages_movieid_fkey FOREIGN KEY (movieid) REFERENCES public.imdb_movies(movieid) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE CASCADE;
+ALTER TABLE imdb_movielanguages DROP CONSTRAINT movielanguages_language_id_fkey;
+ALTER TABLE imdb_movielanguages ADD CONSTRAINT movielanguages_language_id_fkey FOREIGN KEY (language_id) REFERENCES public.language(language_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE CASCADE;
+
+-- ARREGLO ORDERDETAIL
+ALTER TABLE orderdetail DROP CONSTRAINT orderdetail_prod_id_fkey;
+ALTER TABLE orderdetail ADD CONSTRAINT orderdetail_prod_id_fkey FOREIGN KEY (prod_id) REFERENCES public.products(prod_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE CASCADE;
+ALTER TABLE orderdetail DROP CONSTRAINT orderdetail_orderid_fkey;
+ALTER TABLE orderdetail ADD CONSTRAINT orderdetail_orderid_fkey FOREIGN KEY (orderid) REFERENCES public.orders(orderid) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE CASCADE;
+
+-- ARREGLO ORDERS
+ALTER TABLE orders DROP CONSTRAINT orders_customerid_fkey;
+ALTER TABLE orders ADD CONSTRAINT orders_customerid_fkey FOREIGN KEY (customerid) REFERENCES public.customers(customerid) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE CASCADE;
+
+-- ARREGLO PRODUCTS
+ALTER TABLE products DROP CONSTRAINT products_movieid_fkey;
+ALTER TABLE products ADD CONSTRAINT products_movieid_fkey FOREIGN KEY (movieid) REFERENCES public.imdb_movies(movieid) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE CASCADE;
+
+-- ARREGLO DE SECUENCIAS
+
+
+-- ARREGLO DE LA TABLA DE PELICULAS PARA GUARDAR EL NOMBRE DE LA IMAGEN QUE SE CORRESPONDE CON LA PELICULA
+
+
+--ANIADIMOS LAS PELICULAS DEL TOP VENTAS Y AL RESTO DE PELICULAS LE PONEMOS UNA IMAGEN PREDETERMINADA
